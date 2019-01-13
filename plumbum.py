@@ -1,7 +1,8 @@
 import pymorphy2
+import pymorphy2_dicts_ru
 import random
 
-from synonim_dictionary_maker import read_dictionary
+from synonym_dictionary_maker import read_dictionary
 from tokenizer import tokenize, TokenType, Token, file_to_chars
 
 morph = pymorphy2.MorphAnalyzer()
