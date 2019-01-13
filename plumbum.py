@@ -66,12 +66,13 @@ def main():
                         nargs=1,
                         help='output file(default stdout)')
     parser.add_argument('--default-replace-probability', action='store',
-                        default=1.0,
+                        default=[1.0],
+                        type=float,
                         required=False,
                         nargs=1,
                         help='default probability for dictionary replacing')
     parser.add_argument('--shake-probability', action='store',
-                        default=0.0,
+                        default=[0.0],
                         required=False,
                         nargs=1,
                         help='default probability for word shaking')
@@ -79,7 +80,7 @@ def main():
     tokens = tokenize(file_to_chars(open(args.input[0]) if args.input else sys.stdin))
     output_file = open(args.output[0], mode='w') if args.output else sys.stdout
     with open(args.dictionary[0]) as target_dict_file:
-        target_tokens=apply_dict(tokens, read_dictionary(target_dict_file))
+        target_tokens=apply_dict(tokens, read_dictionary(target_dict_file, args.default_replace_probability[0]))
         for token in target_tokens:
             print(token.data, file=output_file, end='', flush=True)
 
