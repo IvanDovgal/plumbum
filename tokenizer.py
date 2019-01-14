@@ -13,7 +13,7 @@ def is_space(c):
 
 
 def is_punctuation(c):
-    punctuation = ",.;()\"\'-"
+    punctuation = "•.?.:\,.;()\"\'-"
     return c in punctuation
 
 
