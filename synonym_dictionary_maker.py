@@ -57,6 +57,13 @@ def filtrate_tokens(chars):
 def get_normalized_set(text):
     return frozenset(filtrate_tokens(text))
 
+def same_pos(word1, word2):
+    word1=morph.parse(word1)
+    word2=morph.parse(word2)
+    if len(word1) > 0 and len(word2) > 0:
+        return word1[0].tag.POS == word2[0].tag.POS
+    else:
+        return False
 
 def reduce_syn_dic(chars, syn_dict):
     words = set(get_normalized_set(chars))
@@ -67,11 +74,12 @@ def reduce_syn_dic(chars, syn_dict):
         synonym = synonyms[0]
         if synonym in words:
             words.remove(synonym)
-            synonyms = []
-            yield {
-                'synonyms': [synonym, *(s for s in synonyms if s != synonym)],
-                **item
-            }
+            synonyms = [s for s in synonyms if same_pos(s, synonym)]
+            if len(synonyms) > 0:
+                yield {
+                    'synonyms': [synonym, *(s for s in synonyms if s != synonym)],
+                    **item
+                }
 
 
 def print_dictionary(file, dictionary):
